@@ -89,7 +89,7 @@ public class UpdateActivity extends AppCompatActivity {
 
             try {
                 InputStream input = null;
-               // OutputStream output = null;
+                FileOutputStream  output = null;
                 HttpURLConnection connection = null;
                 try {
                     URL url = new URL(sUrl[0]);
@@ -108,9 +108,12 @@ public class UpdateActivity extends AppCompatActivity {
 
                     // download the file
                     input = connection.getInputStream();
-                    //output = new FileOutputStream("/sdcard/p/db.json");
+                    output = openFileOutput("db.json", Context.MODE_WORLD_WRITEABLE);
+                    output.write(input.toString().getBytes());
+                    output.close();
 
-                    byte data[] = new byte[4096];
+
+                   /* byte data[] = new byte[4096];
                     long total = 0;
                     int count;
                     while ((count = input.read(data)) != -1) {
@@ -122,13 +125,13 @@ public class UpdateActivity extends AppCompatActivity {
                         if (fileLength > 0) // only if total length is known
                             publishProgress((int) (total * 100 / fileLength));
                         //output.write(data, 0, count);
-                    }
+                    }*/
                 } catch (Exception e) {
                     return e.toString();
                 } finally {
                     try {
-                    /*    if (output != null)
-                            output.close();*/
+                        if (output != null)
+                            output.close();
                         if (input != null)
                             input.close();
                     }
