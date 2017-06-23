@@ -14,6 +14,16 @@ public class Trail {
     private Date date;
     private List<Point> points;
 
+    public Trail() {
+    }
+
+    public Trail(long id, String title, Date date, List<Point> points) {
+        this.id = id;
+        this.title = title;
+        this.date = date;
+        this.points = points;
+    }
+
     public long getId() {
         return id;
     }
