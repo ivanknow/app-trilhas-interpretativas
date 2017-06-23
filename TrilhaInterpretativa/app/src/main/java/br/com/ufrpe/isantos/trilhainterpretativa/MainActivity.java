@@ -80,4 +80,10 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
+    public void updateData(View v){
+        Intent intent = new Intent(getApplicationContext(),UpdateActivity.class);
+        startActivity(intent);
+    }
+
+
 }
