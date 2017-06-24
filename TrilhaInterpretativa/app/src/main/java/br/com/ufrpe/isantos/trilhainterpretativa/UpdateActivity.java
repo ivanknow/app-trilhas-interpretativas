@@ -108,12 +108,12 @@ public class UpdateActivity extends AppCompatActivity {
 
                     // download the file
                     input = connection.getInputStream();
-                    output = openFileOutput("db.json", Context.MODE_WORLD_WRITEABLE);
-                    output.write(input.toString().getBytes());
-                    output.close();
+                    output = openFileOutput("db.json", Context.MODE_PRIVATE);
+                    //output.write(input.toString().getBytes());
+                    //output.close();
 
 
-                   /* byte data[] = new byte[4096];
+                    byte data[] = new byte[4096];
                     long total = 0;
                     int count;
                     while ((count = input.read(data)) != -1) {
@@ -124,8 +124,8 @@ public class UpdateActivity extends AppCompatActivity {
                         // publishing the progress....
                         if (fileLength > 0) // only if total length is known
                             publishProgress((int) (total * 100 / fileLength));
-                        //output.write(data, 0, count);
-                    }*/
+                        output.write(data, 0, count);
+                    }
                 } catch (Exception e) {
                     return e.toString();
                 } finally {
