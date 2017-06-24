@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Scanner;
 
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
@@ -28,5 +27,9 @@ public class TrailJSONParser {
     private static String readFile(File f)
             throws IOException {
         return new Scanner(f).useDelimiter("\\Z").next();
+    }
+
+    public static String ObjectToString(Trail t){
+        return new Gson().toJson(t);
     }
 }

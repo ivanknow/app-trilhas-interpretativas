@@ -3,34 +3,57 @@ package br.com.ufrpe.isantos.trilhainterpretativa;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
+
+import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
+import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser;
 
 public class UpdateActivity extends AppCompatActivity {
     ProgressDialog mProgressDialog;
+    TextView tvLastUpdate;
+    EditText etBaseConsole;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
         mProgressDialog = new ProgressDialog(UpdateActivity.this);
-        mProgressDialog.setMessage("baixando...");
+        mProgressDialog.setMessage(getString(R.string.statusProgress));
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCancelable(true);
+        tvLastUpdate = (TextView) findViewById(R.id.lastUpdate);
+        etBaseConsole = (EditText) findViewById(R.id.etBaseConsole);
+        Context context = getApplicationContext();
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+
+        String result = sharedPref.getString(getString(R.string.lastUpdateKey), "Nunca");
+
+        tvLastUpdate.setText(getString(R.string.lastUpdate) + result);
+
     }
 
-    public void startUpdate(View v){
+    public void startUpdate(View v) {
 
         final DownloadTask downloadTask = new DownloadTask(UpdateActivity.this);
         downloadTask.execute(getString(R.string.service_url));
@@ -73,15 +96,25 @@ public class UpdateActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             mProgressDialog.dismiss();
             if (result != null)
-                Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getString(R.string.updateFail) + result, Toast.LENGTH_LONG).show();
+            else {
+                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                editor.putString(getString(R.string.lastUpdateKey), new Date().toString());
+
+                editor.commit();
+                Toast.makeText(context, getString(R.string.updateSuccess), Toast.LENGTH_SHORT).show();
+                tvLastUpdate.setText(getString(R.string.lastUpdate) + new Date().toString());
+            }
+
+
         }
 
         @Override
         protected String doInBackground(String... sUrl) {
-            // take CPU lock to prevent CPU from going off if the user
-            // presses the power button during download
+
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     getClass().getName());
@@ -89,29 +122,23 @@ public class UpdateActivity extends AppCompatActivity {
 
             try {
                 InputStream input = null;
-                FileOutputStream  output = null;
+                FileOutputStream output = null;
                 HttpURLConnection connection = null;
                 try {
                     URL url = new URL(sUrl[0]);
                     connection = (HttpURLConnection) url.openConnection();
                     connection.connect();
 
-                    // expect HTTP 200 OK, so we don't mistakenly save error report
-                    // instead of the file
                     if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
                         return "Server returned HTTP " + connection.getResponseCode()
                                 + " " + connection.getResponseMessage();
 
-                    // this will be useful to display download percentage
-                    // might be -1: server did not report the length
+
                     int fileLength = connection.getContentLength();
 
-                    // download the file
-                    input = connection.getInputStream();
-                    output = openFileOutput("db.json", Context.MODE_PRIVATE);
-                    //output.write(input.toString().getBytes());
-                    //output.close();
 
+                    input = connection.getInputStream();
+                    output = openFileOutput(getString(R.string.db_file), Context.MODE_PRIVATE);
 
                     byte data[] = new byte[4096];
                     long total = 0;
@@ -134,8 +161,8 @@ public class UpdateActivity extends AppCompatActivity {
                             output.close();
                         if (input != null)
                             input.close();
+                    } catch (IOException ignored) {
                     }
-                    catch (IOException ignored) { }
 
                     if (connection != null)
                         connection.disconnect();
@@ -147,5 +174,51 @@ public class UpdateActivity extends AppCompatActivity {
         }
     }
 
+    public void progressDialogConfigure(ProgressDialog mProgressDialog) {
+
+    }
+    public void resetBase(View v) {
+        String filename = getString(R.string.db_file);
+        Trail trail = new Trail();
+        trail.setTitle("Trilha Indefinida");
+        String string = TrailJSONParser.ObjectToString(trail);
+        FileOutputStream outputStream;
+
+        try {
+            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(string.getBytes());
+            outputStream.close();
+        } catch (Exception ef) {
+            ef.printStackTrace();
+        }
+    }
+    public void showBase(View v) {
+
+        FileInputStream fis = null;
+
+        try {
+            fis = getApplicationContext().openFileInput(getString(R.string.db_file));
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+            }
+            etBaseConsole.setText(sb.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            etBaseConsole.setText(e.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            etBaseConsole.setText(e.toString());
+        }
+
+
+    }
 
 }
+
+
+

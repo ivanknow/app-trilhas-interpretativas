@@ -5,8 +5,7 @@ import org.junit.Test;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser;
 
-import static br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser.stringToObject;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by isantos on 23-Jun-17.
@@ -20,7 +19,9 @@ public class TrailJSONParserTest {
         assertEquals(t.getTitle(),"Trilha dois Irmãos");
         System.out.println(t.getTitle());
         assertEquals(t.getPoints().size(),4);
-      //  assertEquals(t.getPoints().get(0).getLocal().getLatitude(),0.0);
+
         assertEquals(t.getPoints().get(0).getImages().get(0).getSrc(),"res/image1.jpg");
+        System.out.println(TrailJSONParser.ObjectToString(t));
+        assertEquals(TrailJSONParser.ObjectToString(t),json);
     }
 }

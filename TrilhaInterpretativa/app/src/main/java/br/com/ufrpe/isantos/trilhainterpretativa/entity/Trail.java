@@ -2,6 +2,7 @@ package br.com.ufrpe.isantos.trilhainterpretativa.entity;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,9 @@ public class Trail {
     private List<Point> points;
 
     public Trail() {
-    }
+        points = new ArrayList<Point>();
+        title = "No title";
+}
 
     public Trail(long id, String title, Date date, List<Point> points) {
         this.id = id;

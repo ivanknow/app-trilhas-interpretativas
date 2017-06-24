@@ -3,4 +3,22 @@
     <string name="longitude">longitude</string>
     <string name="latitude">latitude</string>
     <string name="service_url">http://trilha.ivanknow.com.br/api/public/trail</string>
+    <string name="db_file">db2.json</string>
+
+    <string name="btnUpdate">Atualizar</string>
+    <string name="btnShowBase">Mostrar Base</string>
+    <string name="btnResetBase">Resetar Base</string>
+    <string name="btnStartTrail">Iniciar trilha</string>
+
+    <string name="statusProgress">atualizando...</string>
+    <string name="updateFail">Falha na atualização</string>
+    <string name="updateSuccess">Atualizado</string>
+    <string name="lastUpdate">Última Atualização:</string>
+    <string name="lastUpdateKey">lastUpdateKey</string>
+    <string name="trailDesc">Seja bem vindo a trilha dois irmãos! essa trilha tem muitos km e possui desafios naturais</string>
+    <string name="trailPoints">0 pontos registrados</string>
+    <string name="lblatitude">Latitude</string>
+    <string name="lbLongitude">Longitude</string>
+    <string name="lbAcc">Aceleração</string>
+    <string name="lbAtt">Altitude</string>
 </resources>

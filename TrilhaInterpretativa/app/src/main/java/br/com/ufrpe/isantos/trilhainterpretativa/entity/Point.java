@@ -9,16 +9,16 @@ import java.util.List;
 public class Point {
     private long id;
     private Local local;
-    private String desc;
+    private String descricao;
     private List<Image> images;
 
     public Point() {
     }
 
-    public Point(long id, Local local, String desc, List<Image> images) {
+    public Point(long id, Local local, String descricao, List<Image> images) {
         this.id = id;
         this.local = local;
-        this.desc = desc;
+        this.descricao = descricao;
         this.images = images;
     }
 
@@ -38,12 +38,12 @@ public class Point {
         this.local = local;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public List<Image> getImages() {
@@ -52,5 +52,15 @@ public class Point {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "id=" + id +
+                ", local=" + local +
+                ", descricao='" + descricao + '\'' +
+                ", images=" + images +
+                '}';
     }
 }
