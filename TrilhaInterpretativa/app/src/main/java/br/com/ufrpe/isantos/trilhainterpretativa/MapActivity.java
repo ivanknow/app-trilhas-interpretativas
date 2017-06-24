@@ -2,6 +2,7 @@ package br.com.ufrpe.isantos.trilhainterpretativa;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -11,7 +12,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Local;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Point;
@@ -41,14 +47,18 @@ public class MapActivity extends AppCompatActivity
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    double scala = 0.000001;
+    double scala = 0.00001;
+
+    ListView listPoints;
+    ArrayList<Point> points;
+    ArrayAdapter<Point> adapter;
 
     TextView tvLatitudeValue;
     TextView tvLongetudeValue;
-    TextView tvAccValue;
+
     TextView tvAltValue;
     TextView tvTrailPoints;
-    TextView textView;
+
 
     double longitude;
     double latitude;
@@ -74,13 +84,25 @@ public class MapActivity extends AppCompatActivity
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this).build();
 
+        listPoints = (ListView) findViewById(R.id.view_list_points);
+        points = new ArrayList<Point>();
+        adapter = new ArrayAdapter<>(MapActivity.this, android.R.layout.simple_list_item_1, points);
+        listPoints.setAdapter(adapter);
+        listPoints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /*Intent i = new Intent(ListaCinemasActivity.this, DetalhesCinemaActivity.class);
+                i.putExtra(NOME_CAMPO_CINEMA ,cinemas.get(position));
+                startActivity(i);*/
+                Toast.makeText(getApplicationContext(), "Calma", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         tvLatitudeValue = (TextView) findViewById(R.id.lbLatitudeValue);
         tvLongetudeValue = (TextView) findViewById(R.id.lbLongitudeValue);
-        tvAccValue = (TextView) findViewById(R.id.lbAccValue);
         tvAltValue = (TextView) findViewById(R.id.lbAltValue);
         tvTrailPoints = (TextView) findViewById(R.id.tvTrailPoints);
-        textView = (TextView) findViewById(R.id.textView);
+
 
         FileInputStream fis = null;
         try {
@@ -115,7 +137,7 @@ public class MapActivity extends AppCompatActivity
             e.printStackTrace();
         }
         setTitle(trail.getTitle());
-        tvTrailPoints.setText(trail.getPoints().size()+" pontos detectados");
+        tvTrailPoints.setText(trail.getPoints().size() + " pontos detectados");
     }
 
     @Override
@@ -149,14 +171,20 @@ public class MapActivity extends AppCompatActivity
         tvLatitudeValue.setText(location.getLatitude() + "");
         tvLongetudeValue.setText(location.getLongitude() + "");
         tvAltValue.setText(location.getAltitude() + "");
-        tvAccValue.setText(location.getSpeed() + "");
-        Local local = new Local(location.getLatitude(),location.getLongitude(),location.getAltitude());
+
+        Local local = new Local(location.getLatitude(), location.getLongitude(), location.getAltitude());
         p = TrailMediator.getPointNearByMe(scala, local, trail);
-        if(p!=null){
+        if (p != null) {
             Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
             // Vibrate for 500 milliseconds
-            v.vibrate(500);
-            textView.setText(p.toString()+location.toString());
+
+            if (!points.contains(p)) {
+                v.vibrate(500);
+                points.add(p);
+                adapter.notifyDataSetChanged();
+
+            }
+
         }
 
 

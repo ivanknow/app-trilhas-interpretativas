@@ -12,6 +12,7 @@ import java.util.List;
 public class Trail {
     private long id;
     private String title;
+    private String desc;
     private Date date;
     private List<Point> points;
 
@@ -57,5 +58,13 @@ public class Trail {
 
     public void setPoints(List<Point> points) {
         this.points = points;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }
