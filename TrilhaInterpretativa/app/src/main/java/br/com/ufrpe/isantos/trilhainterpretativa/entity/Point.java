@@ -11,19 +11,18 @@ public class Point {
     private Local local;
     private String title;
 
-    private String descricao;
+    private String desc;
     private List<Image> images;
 
-    public Point(long id, Local local, String title, String descricao, List<Image> images) {
+    public Point() {
+    }
+
+    public Point(long id, Local local, String title, String desc, List<Image> images) {
         this.id = id;
         this.local = local;
         this.title = title;
-        this.descricao = descricao;
+        this.desc = desc;
         this.images = images;
-    }
-
-
-    public Point() {
     }
 
     public long getId() {
@@ -50,12 +49,12 @@ public class Point {
         this.title = title;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public List<Image> getImages() {
