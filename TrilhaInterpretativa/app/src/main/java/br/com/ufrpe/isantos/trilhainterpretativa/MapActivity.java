@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -48,7 +49,7 @@ public class MapActivity extends AppCompatActivity
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    double scala = 0.004;
+    double scala = 0.0005;
 
     ListView listPoints;
     ArrayList<Point> points;
@@ -78,7 +79,7 @@ public class MapActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
@@ -95,7 +96,7 @@ public class MapActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(MapActivity.this, PointActivity.class);
                 Toast.makeText(getApplicationContext(), points.get(position).getId()+":"+id, Toast.LENGTH_SHORT).show();
-                i.putExtra("pointid",points.get(position).getId());
+                i.putExtra("pointid",""+points.get(position).getId());
                 startActivity(i);
 
             }

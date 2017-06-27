@@ -1,5 +1,6 @@
 package br.com.ufrpe.isantos.trilhainterpretativa;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailFileUtils;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser;
 
+import static android.R.attr.id;
 import static java.lang.System.in;
 
 public class PointActivity extends AppCompatActivity {
@@ -33,19 +35,22 @@ public class PointActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point);
         imageView = (ImageView) findViewById(R.id.imgPoint);
-        int id =  getIntent().getIntExtra("pointid",1);
-        Toast.makeText(getApplicationContext(), ":"+id, Toast.LENGTH_SHORT).show();
+        Intent intent2 = getIntent();
+        String idpoint = intent2.getStringExtra("pointid");
+
+        Toast.makeText(getApplicationContext(), "point:"+idpoint, Toast.LENGTH_SHORT).show();
+
         try {
             String tjson = TrailFileUtils.getFileContent(getString(R.string.db_file),getApplicationContext());
             Trail trail = TrailJSONParser.stringToObject(tjson);
             for(Point p:trail.getPoints()){
-                if(p.getId() == id){
+                if(p.getId() == Integer.parseInt(idpoint)){
                    point = p;
                 }
             }
 
             tvPointDesc = (TextView) findViewById(R.id.tvDescPoint);
-            tvPointDesc.setText(point.getDesc());
+            tvPointDesc.setText(point.getDesc()+"\n("+point.getLocal().getLatitude()+","+point.getLocal().getLatitude()+")");
             setTitle(point.getTitle());
             if (point.getImages().size() > 0) {
                 try {

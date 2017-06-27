@@ -19,9 +19,9 @@
     <string name="lastUpdateKey">lastUpdateKey</string>
     <string name="trailDesc">Seja bem vindo a trilha dois irmãos! essa trilha tem muitos km e possui desafios naturais</string>
     <string name="trailPoints">0 pontos registrados</string>
-    <string name="lblatitude">Lat:</string>
-    <string name="lbLongitude">Long:</string>
+    <string name="lblatitude">Latitude:</string>
+    <string name="lbLongitude">Longitude:</string>
     <string name="lbAcc">Aceleração</string>
-    <string name="lbAtt">Alt:</string>
+    <string name="lbAtt">Altitude:</string>
     <string name="btShowPoint">Visualizar</string>
 </resources>

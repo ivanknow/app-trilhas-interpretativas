@@ -12,31 +12,31 @@
         android:orientation="vertical"
         android:weightSum="1"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        tools:layout_editor_absoluteY="6dp">
 
-
-        <ImageView
-            android:id="@+id/imgPoint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/cast_abc_scrubber_control_off_mtrl_alpha"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="0dp"
-            android:layout_weight="0.57" />
 
         <TextView
             android:id="@+id/tvDescPoint"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.33"
+            android:layout_height="103dp"
             android:text="" />
+
+        <ImageView
+            android:id="@+id/imgPoint"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+
+            app:srcCompat="@drawable/cast_abc_scrubber_control_off_mtrl_alpha"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp" />
 
         <Button
             android:id="@+id/btnBackMap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.04"
-            android:text="Voltar" android:onClick="backToMap"/>
+            android:onClick="backToMap"
+            android:text="Voltar" />
 
     </LinearLayout>
 
