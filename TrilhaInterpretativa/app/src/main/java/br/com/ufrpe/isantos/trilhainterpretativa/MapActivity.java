@@ -94,9 +94,10 @@ public class MapActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(MapActivity.this, PointActivity.class);
-                //i.putExtra("point",points.get(position));
+                Toast.makeText(getApplicationContext(), points.get(position).getId()+":"+id, Toast.LENGTH_SHORT).show();
+                i.putExtra("pointid",points.get(position).getId());
                 startActivity(i);
-               // Toast.makeText(getApplicationContext(), "Calma", Toast.LENGTH_SHORT).show();
+
             }
         });
 

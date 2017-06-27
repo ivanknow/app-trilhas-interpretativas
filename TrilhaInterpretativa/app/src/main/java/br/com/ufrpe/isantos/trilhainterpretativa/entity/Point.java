@@ -1,12 +1,13 @@
 package br.com.ufrpe.isantos.trilhainterpretativa.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by ivan on 22/06/2017.
  */
 
-public class Point {
+public class Point implements Serializable {
     private long id;
     private Local local;
     private String title;
