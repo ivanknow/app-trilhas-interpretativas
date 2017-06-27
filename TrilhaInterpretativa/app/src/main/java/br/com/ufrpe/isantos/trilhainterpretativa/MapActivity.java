@@ -39,6 +39,7 @@ import br.com.ufrpe.isantos.trilhainterpretativa.entity.Point;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser;
 
+import static br.com.ufrpe.isantos.trilhainterpretativa.R.id.tvTrailDesc;
 import static br.com.ufrpe.isantos.trilhainterpretativa.TrailMediator.getPointNearByMe;
 
 
@@ -47,7 +48,7 @@ public class MapActivity extends AppCompatActivity
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    double scala = 0.00001;
+    double scala = 0.004;
 
     ListView listPoints;
     ArrayList<Point> points;
@@ -58,6 +59,7 @@ public class MapActivity extends AppCompatActivity
 
     TextView tvAltValue;
     TextView tvTrailPoints;
+    TextView tvTrailDesc;
 
 
     double longitude;
@@ -91,10 +93,10 @@ public class MapActivity extends AppCompatActivity
         listPoints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /*Intent i = new Intent(ListaCinemasActivity.this, DetalhesCinemaActivity.class);
-                i.putExtra(NOME_CAMPO_CINEMA ,cinemas.get(position));
-                startActivity(i);*/
-                Toast.makeText(getApplicationContext(), "Calma", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(MapActivity.this, PointActivity.class);
+                //i.putExtra("point",points.get(position));
+                startActivity(i);
+               // Toast.makeText(getApplicationContext(), "Calma", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -102,7 +104,7 @@ public class MapActivity extends AppCompatActivity
         tvLongetudeValue = (TextView) findViewById(R.id.lbLongitudeValue);
         tvAltValue = (TextView) findViewById(R.id.lbAltValue);
         tvTrailPoints = (TextView) findViewById(R.id.tvTrailPoints);
-
+        tvTrailDesc = (TextView) findViewById(R.id.tvTrailDesc);
 
         FileInputStream fis = null;
         try {
@@ -138,6 +140,7 @@ public class MapActivity extends AppCompatActivity
         }
         setTitle(trail.getTitle());
         tvTrailPoints.setText(trail.getPoints().size() + " pontos detectados");
+        tvTrailDesc.setText(trail.getDesc());
     }
 
     @Override
@@ -173,7 +176,7 @@ public class MapActivity extends AppCompatActivity
         tvAltValue.setText(location.getAltitude() + "");
 
         Local local = new Local(location.getLatitude(), location.getLongitude(), location.getAltitude());
-        p = TrailMediator.getPointNearByMe(scala, local, trail);
+        p = TrailMediator.getPointNearByMe(scala, local, trail,points);
         if (p != null) {
             Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
             // Vibrate for 500 milliseconds

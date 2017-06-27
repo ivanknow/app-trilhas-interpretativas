@@ -2,6 +2,8 @@ package br.com.ufrpe.isantos.trilhainterpretativa;
 
 import android.location.Location;
 
+import java.util.List;
+
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Local;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Point;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
@@ -16,7 +18,7 @@ public class TrailMediator {
         return null;
     }
 
-    public static Point getPointNearByMe(double scala, Local local, Trail t) {
+    public static Point getPointNearByMe(double scala, Local local, Trail t, List<Point> alreadyused) {
        // Trail t = getCurrentTrail();
         for (Point p : t.getPoints()) {
             double pointLat = Math.abs(p.getLocal().getLatitude());
@@ -27,6 +29,7 @@ public class TrailMediator {
 
             if(isBetween(cooLat,pointLat+scala,pointLat-scala)){
                 if(isBetween(cooLon,pointLon+scala,pointLon-scala)){
+                    if(!alreadyused.contains(p))
                     return p;
                 }
             }

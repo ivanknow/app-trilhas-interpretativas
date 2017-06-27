@@ -24,8 +24,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
+import br.com.ufrpe.isantos.trilhainterpretativa.entity.Image;
+import br.com.ufrpe.isantos.trilhainterpretativa.entity.Point;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
+import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailFileUtils;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser;
+
+import static br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailFileUtils.getFileContent;
+import static br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser.stringToObject;
 
 public class UpdateActivity extends AppCompatActivity {
     ProgressDialog mProgressDialog;
@@ -112,9 +118,7 @@ public class UpdateActivity extends AppCompatActivity {
 
         }
 
-        @Override
-        protected String doInBackground(String... sUrl) {
-
+        private String donwloadFile(String filename,String surl){
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     getClass().getName());
@@ -125,7 +129,7 @@ public class UpdateActivity extends AppCompatActivity {
                 FileOutputStream output = null;
                 HttpURLConnection connection = null;
                 try {
-                    URL url = new URL(sUrl[0]);
+                    URL url = new URL(surl);
                     connection = (HttpURLConnection) url.openConnection();
                     connection.connect();
 
@@ -138,7 +142,7 @@ public class UpdateActivity extends AppCompatActivity {
 
 
                     input = connection.getInputStream();
-                    output = openFileOutput(getString(R.string.db_file), Context.MODE_PRIVATE);
+                    output = openFileOutput(filename, Context.MODE_PRIVATE);
 
                     byte data[] = new byte[4096];
                     long total = 0;
@@ -170,6 +174,25 @@ public class UpdateActivity extends AppCompatActivity {
             } finally {
                 wl.release();
             }
+            return filename;
+        }
+
+        @Override
+        protected String doInBackground(String... sUrl) {
+
+            donwloadFile(getString(R.string.db_file),sUrl[0]);
+            try {
+                String result =  TrailFileUtils.getFileContent(getString(R.string.db_file),getApplicationContext());
+                Trail t =TrailJSONParser.stringToObject(result);
+                for (Point p:t.getPoints()){
+                    for (Image i:p.getImages()){
+                        donwloadFile(i.getSrc(),getString(R.string.service_url_base)+"res/"+i.getSrc());
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //TrailJSONParser.fileToObject()
             return null;
         }
     }
@@ -194,19 +217,12 @@ public class UpdateActivity extends AppCompatActivity {
     }
     public void showBase(View v) {
 
-        FileInputStream fis = null;
+
 
         try {
-            fis = getApplicationContext().openFileInput(getString(R.string.db_file));
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader bufferedReader = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String line;
 
-            while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
-            }
-            etBaseConsole.setText(sb.toString());
+           String result =  TrailFileUtils.getFileContent(getString(R.string.db_file),getApplicationContext());
+            etBaseConsole.setText(result);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             etBaseConsole.setText(e.toString());
@@ -217,6 +233,8 @@ public class UpdateActivity extends AppCompatActivity {
 
 
     }
+
+
 
 }
 
