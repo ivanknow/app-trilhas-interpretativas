@@ -3,7 +3,7 @@
     <string name="longitude">longitude</string>
     <string name="latitude">latitude</string>
 
-    <string name="service_url">http://trilha.ivanknow.com.br/api/public/trail</string>
+    <string name="service_url">http://trilha.ivanknow.com.br/api/public/trailmock</string>
     <string name="service_url_base">http://trilha.ivanknow.com.br/api/public/</string>
     <string name="db_file">db2.json</string>
 

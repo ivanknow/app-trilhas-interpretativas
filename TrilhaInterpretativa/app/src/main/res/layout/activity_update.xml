@@ -20,12 +20,20 @@
             android:layout_height="wrap_content"
             android:text="Ultima Atualização:" />
 
+        <EditText
+            android:id="@+id/urlupdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="" />
+
         <Button
             android:id="@+id/startUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="startUpdate"
-            android:text="Click To Start"
+            android:text="Atuaizar"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
 

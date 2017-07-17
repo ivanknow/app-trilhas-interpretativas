@@ -49,7 +49,7 @@ public class MapActivity extends AppCompatActivity
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    double scala = 0.0005;
+    double scala = 0.0001;
 
     ListView listPoints;
     ArrayList<Point> points;
@@ -73,7 +73,9 @@ public class MapActivity extends AppCompatActivity
     private final String LOG_TAG = "TrilhaInterpretativaApp";
     private Trail trail;
     private Point p;
-    private long interval = 1000;
+    private long interval = 5000;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +144,7 @@ public class MapActivity extends AppCompatActivity
         }
         setTitle(trail.getTitle());
         tvTrailPoints.setText(trail.getPoints().size() + " pontos detectados");
-        tvTrailDesc.setText(trail.getDesc());
+        tvTrailDesc.setText(trail.getDescr());
     }
 
     @Override
@@ -159,6 +161,8 @@ public class MapActivity extends AppCompatActivity
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
+
+
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -206,4 +210,6 @@ public class MapActivity extends AppCompatActivity
         mGoogleApiClient.disconnect();
         super.onStop();
     }
+
+
 }

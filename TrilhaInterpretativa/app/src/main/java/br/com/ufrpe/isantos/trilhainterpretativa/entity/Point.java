@@ -12,17 +12,17 @@ public class Point implements Serializable {
     private Local local;
     private String title;
 
-    private String desc;
+    private String descr;
     private List<Image> images;
 
     public Point() {
     }
 
-    public Point(long id, Local local, String title, String desc, List<Image> images) {
+    public Point(long id, Local local, String title, String descr, List<Image> images) {
         this.id = id;
         this.local = local;
         this.title = title;
-        this.desc = desc;
+        this.descr = descr;
         this.images = images;
     }
 
@@ -50,12 +50,12 @@ public class Point implements Serializable {
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescr() {
+        return descr;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
 
     public List<Image> getImages() {

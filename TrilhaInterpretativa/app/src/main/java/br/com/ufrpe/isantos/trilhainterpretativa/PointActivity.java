@@ -50,7 +50,7 @@ public class PointActivity extends AppCompatActivity {
             }
 
             tvPointDesc = (TextView) findViewById(R.id.tvDescPoint);
-            tvPointDesc.setText(point.getDesc()+"\n("+point.getLocal().getLatitude()+","+point.getLocal().getLatitude()+")");
+            tvPointDesc.setText(point.getDescr()+"\n("+point.getLocal().getLatitude()+","+point.getLocal().getLatitude()+")");
             setTitle(point.getTitle());
             if (point.getImages().size() > 0) {
                 try {

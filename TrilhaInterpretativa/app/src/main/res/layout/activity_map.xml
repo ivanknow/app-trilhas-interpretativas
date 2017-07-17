@@ -74,13 +74,6 @@
                 android:text="" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="showPoint"
-            android:text="@string/btShowPoint" />
-
         <ListView
             android:id="@+id/view_list_points"
             android:layout_width="match_parent"

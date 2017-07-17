@@ -12,7 +12,7 @@ import java.util.List;
 public class Trail {
     private long id;
     private String title;
-    private String desc;
+    private String descr;
     private Date date;
     private List<Point> points;
 
@@ -60,11 +60,11 @@ public class Trail {
         this.points = points;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescr() {
+        return descr;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
 }

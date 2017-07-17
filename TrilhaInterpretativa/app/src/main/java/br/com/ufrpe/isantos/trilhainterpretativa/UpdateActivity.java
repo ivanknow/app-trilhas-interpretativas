@@ -37,6 +37,7 @@ public class UpdateActivity extends AppCompatActivity {
     ProgressDialog mProgressDialog;
     TextView tvLastUpdate;
     EditText etBaseConsole;
+    EditText urlUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class UpdateActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(true);
         tvLastUpdate = (TextView) findViewById(R.id.lastUpdate);
         etBaseConsole = (EditText) findViewById(R.id.etBaseConsole);
+        urlUpdate = (EditText) findViewById(R.id.urlupdate);
+        urlUpdate.setText(getString(R.string.service_url));
         Context context = getApplicationContext();
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -62,7 +65,7 @@ public class UpdateActivity extends AppCompatActivity {
     public void startUpdate(View v) {
 
         final DownloadTask downloadTask = new DownloadTask(UpdateActivity.this);
-        downloadTask.execute(getString(R.string.service_url));
+        downloadTask.execute(urlUpdate.getText().toString());
 
         mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
