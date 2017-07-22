@@ -1,7 +1,9 @@
 package br.com.ufrpe.isantos.trilhainterpretativa.entity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Date;
 
 /**
  * Created by ivan on 22/06/2017.
@@ -11,6 +13,7 @@ public class Point implements Serializable {
     private long id;
     private Local local;
     private String title;
+    private Date checkpoint;
 
     private String descr;
     private List<Image> images;
@@ -68,18 +71,34 @@ public class Point implements Serializable {
 
     @Override
     public String toString() {
+        if(checkpoint!=null){
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(checkpoint);
+            int hours = cal.get(Calendar.HOUR_OF_DAY);
+            int min = cal.get(Calendar.MINUTE);
+            int sec = cal.get(Calendar.SECOND);
+            return title+"("+hours+":"+min+":"+sec+")";
+        }
+
         return title;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        Point other = (Point) o;
+       if(this.getTitle().equals(other.getTitle())     )
+        return true;
+        return false;
 
-        Point point = (Point) o;
+    }
 
-        return id == point.id;
+    public Date getCheckpoint() {
+        return checkpoint;
+    }
 
+    public void setCheckpoint(Date checkpoint) {
+        this.checkpoint = checkpoint;
     }
 
     @Override

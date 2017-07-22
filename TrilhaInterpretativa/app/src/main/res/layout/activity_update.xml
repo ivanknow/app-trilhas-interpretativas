@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="" />
+            android:text=""
+            android:textColor="@color/colorBtnFont"/>
 
         <Button
             android:id="@+id/startUpdate"
@@ -35,7 +36,10 @@
             android:onClick="startUpdate"
             android:text="Atuaizar"
             tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp" />
+            tools:layout_editor_absoluteY="8dp"
+
+            android:textColor="@color/colorBtnFont"
+            android:background="@color/colorBtn"/>
 
         <Button
             android:id="@+id/btnShowBase"
@@ -43,7 +47,9 @@
             android:layout_height="wrap_content"
             android:text="@string/btnShowBase"
 
-            android:onClick="showBase"/>
+            android:onClick="showBase"
+            android:background="@color/colorBtn"
+            android:textColor="@color/colorBtnFont"/>
 
         <EditText
             android:id="@+id/etBaseConsole"
@@ -51,14 +57,17 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textMultiLine"
-            android:layout_weight="0.65" />
+            android:layout_weight="0.65"
+           />
 
         <Button
             android:id="@+id/btnResetBase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btnResetBase"
-            android:onClick="resetBase"/>
+            android:onClick="resetBase"
+            android:textColor="@color/colorBtnFont"
+            android:background="@color/colorBtn"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

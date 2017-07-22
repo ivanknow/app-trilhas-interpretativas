@@ -15,6 +15,14 @@
         tools:layout_editor_absoluteY="6dp">
 
 
+        <Button
+            android:id="@+id/btnOpenMap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btnOpenMap"
+            android:textColor="@color/colorBtnFont"
+            android:background="@color/colorBtn"/>
+
         <TextView
             android:id="@+id/tvDescPoint"
             android:layout_width="match_parent"
@@ -36,7 +44,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.04"
             android:onClick="backToMap"
-            android:text="Voltar" />
+            android:text="Voltar"
+            android:textColor="@color/colorBtnFont"
+            android:background="@color/colorBtn"/>
 
     </LinearLayout>
 

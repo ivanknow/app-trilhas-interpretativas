@@ -34,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Local;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Point;
@@ -90,19 +91,7 @@ public class MapActivity extends AppCompatActivity
                 .addOnConnectionFailedListener(this).build();
 
         listPoints = (ListView) findViewById(R.id.view_list_points);
-        points = new ArrayList<Point>();
-        adapter = new ArrayAdapter<>(MapActivity.this, android.R.layout.simple_list_item_1, points);
-        listPoints.setAdapter(adapter);
-        listPoints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(MapActivity.this, PointActivity.class);
-                Toast.makeText(getApplicationContext(), points.get(position).getId()+":"+id, Toast.LENGTH_SHORT).show();
-                i.putExtra("pointid",""+points.get(position).getId());
-                startActivity(i);
 
-            }
-        });
 
         tvLatitudeValue = (TextView) findViewById(R.id.lbLatitudeValue);
         tvLongetudeValue = (TextView) findViewById(R.id.lbLongitudeValue);
@@ -124,6 +113,20 @@ public class MapActivity extends AppCompatActivity
             }
 
             trail = TrailJSONParser.stringToObject(sb.toString());
+
+            points = (ArrayList) trail.getPoints();
+            adapter = new ArrayAdapter<>(MapActivity.this, android.R.layout.simple_list_item_1, points);
+            listPoints.setAdapter(adapter);
+            listPoints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent i = new Intent(MapActivity.this, PointActivity.class);
+                    //Toast.makeText(getApplicationContext(), points.get(position).getId()+":"+id, Toast.LENGTH_SHORT).show();
+                    i.putExtra("pointid",""+points.get(position).getId());
+                    startActivity(i);
+
+                }
+            });
 
         } catch (FileNotFoundException e) {
             String filename = getString(R.string.db_file);
@@ -187,9 +190,10 @@ public class MapActivity extends AppCompatActivity
             Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
             // Vibrate for 500 milliseconds
 
-            if (!points.contains(p)) {
+            if (points.contains(p)) {
+                points.get(points.indexOf(p)).setCheckpoint(new Date());
                 v.vibrate(500);
-                points.add(p);
+                //points.add(p);
                 adapter.notifyDataSetChanged();
 
             }

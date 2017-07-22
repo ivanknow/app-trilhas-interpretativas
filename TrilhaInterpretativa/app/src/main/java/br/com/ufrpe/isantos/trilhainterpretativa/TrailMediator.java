@@ -29,25 +29,11 @@ public class TrailMediator {
 
             if(isBetween(cooLat,pointLat+scala,pointLat-scala)){
                 if(isBetween(cooLon,pointLon+scala,pointLon-scala)){
-                    if(!alreadyused.contains(p))
+                    if(p.getCheckpoint()==null)
                     return p;
                 }
             }
-           /* if (cooLat <= pointLat + scala
-                    && cooLat >= pointLat - scala) {
-                if (cooLon <= pointLon + scala
-                        && cooLon >= pointLon - scala) {
-                    return p;
-                }
-            }*/
 
-           /* if (pointLat <= cooLat + scala
-                    && pointLat >= cooLat - scala) {
-                if (pointLon <= cooLon + scala
-                        && pointLon >= cooLon - scala) {
-                return p;
-                }
-            }*/
         }
         return null;
     }
