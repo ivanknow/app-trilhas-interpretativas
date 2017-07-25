@@ -52,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openMap(View v) {
+
         Intent intent = new Intent(getApplicationContext(), MapActivity.class);
         startActivity(intent);
+
     }
 
 

@@ -50,7 +50,7 @@ public class MapActivity extends AppCompatActivity
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    double scala = 0.0001;
+    double scala = 0.00007;
 
     ListView listPoints;
     ArrayList<Point> points;

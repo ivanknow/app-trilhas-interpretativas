@@ -1,6 +1,7 @@
 package br.com.ufrpe.isantos.trilhainterpretativa.entity;
 
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by ivan on 22/06/2017.
  */
 
-public class Trail {
+public class Trail implements Serializable{
     private long id;
     private String title;
     private String descr;

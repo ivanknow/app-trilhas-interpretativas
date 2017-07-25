@@ -20,8 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btnOpenMap"
+            android:onClick="openMap"
             android:textColor="@color/colorBtnFont"
             android:background="@color/colorBtn"/>
+
 
         <TextView
             android:id="@+id/tvDescPoint"
