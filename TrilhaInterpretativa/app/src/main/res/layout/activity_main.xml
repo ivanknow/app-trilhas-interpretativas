@@ -19,9 +19,7 @@
             android:layout_height="wrap_content"
             android:text="@string/btnUpdate"
             android:onClick="updateData"
-            android:background="@color/colorBtn"
-
-             />
+            android:background="@color/colorBtn"             />
 
         <Space
             android:layout_width="match_parent"

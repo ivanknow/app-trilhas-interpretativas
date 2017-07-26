@@ -16,10 +16,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -39,10 +37,10 @@ import java.util.Date;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Local;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Point;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
+import br.com.ufrpe.isantos.trilhainterpretativa.services.GeoService;
+import br.com.ufrpe.isantos.trilhainterpretativa.services.LocationService;
+import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailConstants;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser;
-
-import static br.com.ufrpe.isantos.trilhainterpretativa.R.id.tvTrailDesc;
-import static br.com.ufrpe.isantos.trilhainterpretativa.TrailMediator.getPointNearByMe;
 
 
 public class MapActivity extends AppCompatActivity
@@ -50,7 +48,7 @@ public class MapActivity extends AppCompatActivity
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    double scala = 0.00007;
+    double scala = TrailConstants.SCALA;
 
     ListView listPoints;
     ArrayList<Point> points;
@@ -113,6 +111,8 @@ public class MapActivity extends AppCompatActivity
             }
 
             trail = TrailJSONParser.stringToObject(sb.toString());
+
+           // GeoService.startActionFoo(getApplicationContext(),"rola");
 
             points = (ArrayList) trail.getPoints();
             adapter = new ArrayAdapter<>(MapActivity.this, android.R.layout.simple_list_item_1, points);

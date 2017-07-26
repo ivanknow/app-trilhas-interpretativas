@@ -42,10 +42,10 @@
         <activity android:name=".UpdateActivity" />
 
         <service
-            android:name=".GeoService"
+            android:name=".services.GeoService"
             android:exported="false" />
         <service
-            android:name=".MyLocationService"
+            android:name=".services.MyLocationService"
             android:enabled="true"
             android:exported="true"></service>
     </application>

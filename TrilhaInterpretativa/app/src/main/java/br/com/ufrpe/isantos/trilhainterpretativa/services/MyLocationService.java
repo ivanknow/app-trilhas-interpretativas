@@ -1,4 +1,4 @@
-package br.com.ufrpe.isantos.trilhainterpretativa;
+package br.com.ufrpe.isantos.trilhainterpretativa.services;
 
 import android.app.IntentService;
 import android.app.Service;
@@ -20,6 +20,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 
+import br.com.ufrpe.isantos.trilhainterpretativa.R;
+import br.com.ufrpe.isantos.trilhainterpretativa.TrailMediator;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Local;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Point;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
