@@ -2,6 +2,8 @@ package br.com.ufrpe.isantos.trilhainterpretativa.services;
 
 import android.Manifest;
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -11,6 +13,8 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -198,13 +202,39 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
         Point point = TrailMediator.getPointNearByMe(SCALA, local, trail,points);
         if (point != null) {
             Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-            // Vibrate for 500 milliseconds
+
 
             if (points.contains(point)) {
 
                 points.remove(points.indexOf(point));
-                v.vibrate(1000);
+                v.vibrate(3000);
+               int mNotificationId = 1001;
+                NotificationCompat.Builder mBuilder =
+                         new NotificationCompat.Builder(this)
+                                        .setSmallIcon(R.mipmap.ic_launcher)
+                                        .setContentTitle("Ponto detectado")
+                                        .setContentText(point.getTitle());
 
+                Intent resultIntent = new Intent(this, MapActivity.class);
+
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stack for the Intent (but not the Intent itself)
+                stackBuilder.addParentStack(MapActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+                stackBuilder.addNextIntent(resultIntent);
+                PendingIntent resultPendingIntent =
+                        stackBuilder.getPendingIntent(
+                                0,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+                mBuilder.setContentIntent(resultPendingIntent);
+                NotificationManager mNotificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+// mNotificationId is a unique integer your app uses to identify the
+// notification. For example, to cancel the notification, you can pass its ID
+// number to NotificationManager.cancel().
+                mNotificationManager.notify(mNotificationId, mBuilder.build());
 
             }
 

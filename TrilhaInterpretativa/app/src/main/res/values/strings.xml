@@ -6,7 +6,7 @@
     <string name="service_url">http://trilha.ivanknow.com.br/api/public/trailmock</string>
     <string name="service_url_base">http://trilha.ivanknow.com.br/</string>
     <string name="db_file">db2.json</string>
-
+    <string name="btnSettings">Configurações</string>
     <string name="btnUpdate">Atualizar</string>
     <string name="btnShowBase">Mostrar Base</string>
     <string name="btnResetBase">Resetar Base</string>
