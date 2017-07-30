@@ -16,6 +16,7 @@
 
         <Button
             android:id="@+id/button2"
+            android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorBtn"
@@ -31,10 +32,11 @@
 
         <Button
             android:id="@+id/button3"
+            android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorBtn"
-            android:drawableRight="@mipmap/ic_setting"
+
             android:onClick="updateData"
             android:text="@string/btnSettings"
             android:textColor="@color/colorBtnFont" />

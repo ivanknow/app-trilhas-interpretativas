@@ -1,13 +1,18 @@
 package br.com.ufrpe.isantos.trilhainterpretativa;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import java.util.Date;
 
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
 import br.com.ufrpe.isantos.trilhainterpretativa.services.GeoService;
@@ -32,6 +37,23 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
             }
+           // SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+            if(!settings.contains(getString(R.string.raio))){
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(getString(R.string.raio), "0.00004");
+            editor.commit();
+            }
+
+            /*SharedPreferences sharedPref = getSharedPreferences("default",Context.MODE_PRIVATE);
+
+            if(!sharedPref.contains(getString(R.string.raio))){
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putFloat(getString(R.string.raio), 0.00004f);
+                editor.commit();
+            }*/
+
+
         }
 
 

@@ -6,10 +6,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -47,8 +49,10 @@ import br.com.ufrpe.isantos.trilhainterpretativa.TrailMediator;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Local;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Point;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
+import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailConstants;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser;
 
+import static br.com.ufrpe.isantos.trilhainterpretativa.R.string.raio;
 import static br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailConstants.SCALA;
 
 /**
@@ -68,6 +72,8 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
     private Trail trail;
     private ArrayList<Point> points;
     private boolean currentlyProcessingLocation = false;
+    private double scala;
+
 
 
     public GeoService() {
@@ -101,7 +107,15 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
 
 
             points = (ArrayList) trail.getPoints();
+            //getSharedPreferences(getString(R.string.raio),Context.MODE_PRIVATE);
+            /*SharedPreferences sharedPref = getSharedPreferences("default",Context.MODE_PRIVATE);
+            //SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+            float raio = sharedPref.getFloat(getString(R.string.raio), TrailConstants.SCALA);
+            scala = raio;*/
 
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+            String raioString = settings.getString(getString(raio), TrailConstants.SCALA+"");
+            scala = Double.parseDouble( raioString);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -194,6 +208,11 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
     }
 
     @Override
+    public boolean stopService(Intent name) {
+        return super.stopService(name);
+    }
+
+    @Override
     public void onLocationChanged(Location location) {
         Log.i(LOG_TAG, "CHANGED");
 
@@ -213,7 +232,7 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
                          new NotificationCompat.Builder(this)
                                         .setSmallIcon(R.mipmap.ic_launcher)
                                         .setContentTitle("Ponto detectado")
-                                        .setContentText(point.getTitle());
+                                        .setContentText(point.getTitle()+"-"+scala);
 
                 Intent resultIntent = new Intent(this, MapActivity.class);
 

@@ -27,7 +27,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:text=""
-            android:textColor="@color/colorBtnFont"/>
+           />
 
         <Button
             android:id="@+id/startUpdate"
@@ -51,14 +51,7 @@
             android:background="@color/colorBtn"
             android:textColor="@color/colorBtnFont"/>
 
-        <EditText
-            android:id="@+id/etBaseConsole"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:layout_weight="0.65"
-           />
+
 
         <Button
             android:id="@+id/btnResetBase"
@@ -68,6 +61,23 @@
             android:onClick="resetBase"
             android:textColor="@color/colorBtnFont"
             android:background="@color/colorBtn"/>
+
+        <EditText
+            android:id="@+id/editRaio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            />
+
+        <Button
+            android:id="@+id/btnRaio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="editar raio"
+            android:onClick="editRaio"/>
+
+
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -73,12 +73,8 @@ public class Point implements Serializable {
     public String toString() {
         if(checkpoint!=null){
 
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(checkpoint);
-            int hours = cal.get(Calendar.HOUR_OF_DAY);
-            int min = cal.get(Calendar.MINUTE);
-            int sec = cal.get(Calendar.SECOND);
-            return title+"("+hours+":"+min+":"+sec+")";
+
+            return title+"("+checkpoint.toString()+")";
         }
 
         return title;

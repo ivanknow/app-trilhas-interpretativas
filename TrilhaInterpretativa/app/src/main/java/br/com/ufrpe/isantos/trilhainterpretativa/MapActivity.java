@@ -3,10 +3,12 @@ package br.com.ufrpe.isantos.trilhainterpretativa;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -42,13 +44,15 @@ import br.com.ufrpe.isantos.trilhainterpretativa.services.LocationService;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailConstants;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser;
 
+import static br.com.ufrpe.isantos.trilhainterpretativa.R.string.raio;
+
 
 public class MapActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    double scala = TrailConstants.SCALA;
+    double scala;
 
     ListView listPoints;
     ArrayList<Point> points;
@@ -58,7 +62,8 @@ public class MapActivity extends AppCompatActivity
     TextView tvLongetudeValue;
 
     TextView tvAltValue;
-    TextView tvTrailPoints;
+    TextView tvRaio;
+    TextView tvHoraInicio;
     TextView tvTrailDesc;
 
 
@@ -94,8 +99,9 @@ public class MapActivity extends AppCompatActivity
         tvLatitudeValue = (TextView) findViewById(R.id.lbLatitudeValue);
         tvLongetudeValue = (TextView) findViewById(R.id.lbLongitudeValue);
         tvAltValue = (TextView) findViewById(R.id.lbAltValue);
-        tvTrailPoints = (TextView) findViewById(R.id.tvTrailPoints);
+        tvHoraInicio = (TextView) findViewById(R.id.tvhorarioinicio);
         tvTrailDesc = (TextView) findViewById(R.id.tvTrailDesc);
+        tvRaio = (TextView) findViewById(R.id.textViewRaio);
 
         FileInputStream fis = null;
         try {
@@ -146,7 +152,28 @@ public class MapActivity extends AppCompatActivity
             e.printStackTrace();
         }
         setTitle(trail.getTitle());
-        tvTrailPoints.setText(trail.getPoints().size() + " pontos detectados");
+       /* SharedPreferences sharedPref2 = getSharedPreferences("default",Context.MODE_PRIVATE);
+
+        float raio = sharedPref2.getFloat(getString(R.string.raio),TrailConstants.SCALA);
+        tvRaio.setText(raio+"");
+        scala = raio;*/
+
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String raio = settings.getString(getString(R.string.raio), TrailConstants.SCALA+"");
+        tvRaio.setText(raio);
+        scala = Double.parseDouble(raio);
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String result = sharedPref.getString(getString(R.string.horaInicio), "");
+        if(result.equals("")){
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(getString(R.string.horaInicio), new Date().toString());
+            editor.commit();
+             result = sharedPref.getString(getString(R.string.horaInicio), "");
+        }
+
+        tvHoraInicio.setText(result);
         tvTrailDesc.setText(trail.getDescr());
     }
 
@@ -213,6 +240,13 @@ public class MapActivity extends AppCompatActivity
     protected void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
+    }
+
+    public void finishTrail(View v){
+        stopService(new Intent(MapActivity.this, GeoService.class));
+
+        finish();
+
     }
 
 
