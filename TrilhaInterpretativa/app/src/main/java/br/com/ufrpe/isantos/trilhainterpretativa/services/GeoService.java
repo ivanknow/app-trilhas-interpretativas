@@ -70,7 +70,7 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
     private long interval = 5000;
     private String LOG_TAG = "service geo";
     private Trail trail;
-    private ArrayList<Point> points;
+    public static ArrayList<Point> points;
     private boolean currentlyProcessingLocation = false;
     private double scala;
 
@@ -107,11 +107,7 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
 
 
             points = (ArrayList) trail.getPoints();
-            //getSharedPreferences(getString(R.string.raio),Context.MODE_PRIVATE);
-            /*SharedPreferences sharedPref = getSharedPreferences("default",Context.MODE_PRIVATE);
-            //SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-            float raio = sharedPref.getFloat(getString(R.string.raio), TrailConstants.SCALA);
-            scala = raio;*/
+
 
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
             String raioString = settings.getString(getString(raio), TrailConstants.SCALA+"");
@@ -224,15 +220,25 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
 
 
             if (points.contains(point)) {
-
                 points.remove(points.indexOf(point));
+                point.setCheckpoint(new Date());
+                points.add(0,point);
+
+
+                //points.get(points.indexOf(point)).setCheckpoint(new Date());
+              //
                 v.vibrate(3000);
                int mNotificationId = 1001;
+                Location targetLocation = new Location("");//provider name is unnecessary
+                targetLocation.setLatitude(point.getLocal().getLatitude());//your coords of course
+                targetLocation.setLongitude(point.getLocal().getLongitude());
+
+
                 NotificationCompat.Builder mBuilder =
                          new NotificationCompat.Builder(this)
                                         .setSmallIcon(R.mipmap.ic_launcher)
                                         .setContentTitle("Ponto detectado")
-                                        .setContentText(point.getTitle()+"-"+scala);
+                                        .setContentText(point.getTitle()+" à "+Math.ceil(location.distanceTo(targetLocation))+"m");
 
                 Intent resultIntent = new Intent(this, MapActivity.class);
 

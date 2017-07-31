@@ -44,9 +44,6 @@ import br.com.ufrpe.isantos.trilhainterpretativa.services.LocationService;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailConstants;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser;
 
-import static br.com.ufrpe.isantos.trilhainterpretativa.R.string.raio;
-
-
 public class MapActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -55,7 +52,7 @@ public class MapActivity extends AppCompatActivity
     double scala;
 
     ListView listPoints;
-    ArrayList<Point> points;
+    //ArrayList<Point> points;
     ArrayAdapter<Point> adapter;
 
     TextView tvLatitudeValue;
@@ -118,17 +115,14 @@ public class MapActivity extends AppCompatActivity
 
             trail = TrailJSONParser.stringToObject(sb.toString());
 
-           // GeoService.startActionFoo(getApplicationContext(),"rola");
-
-            points = (ArrayList) trail.getPoints();
-            adapter = new ArrayAdapter<>(MapActivity.this, android.R.layout.simple_list_item_1, points);
+            adapter = new ArrayAdapter<>(MapActivity.this, android.R.layout.simple_list_item_1, GeoService.points);
             listPoints.setAdapter(adapter);
             listPoints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent i = new Intent(MapActivity.this, PointActivity.class);
-                    //Toast.makeText(getApplicationContext(), points.get(position).getId()+":"+id, Toast.LENGTH_SHORT).show();
-                    i.putExtra("pointid",""+points.get(position).getId());
+
+                    i.putExtra("pointid",""+GeoService.points.get(position).getId());
                     startActivity(i);
 
                 }
@@ -211,22 +205,8 @@ public class MapActivity extends AppCompatActivity
         tvLongetudeValue.setText(location.getLongitude() + "");
         tvAltValue.setText(location.getAltitude() + "");
 
-        Local local = new Local(location.getLatitude(), location.getLongitude(), location.getAltitude());
-        p = TrailMediator.getPointNearByMe(scala, local, trail,points);
-        if (p != null) {
-            Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-            // Vibrate for 500 milliseconds
-
-            if (points.contains(p)) {
-                points.get(points.indexOf(p)).setCheckpoint(new Date());
-                v.vibrate(500);
-                //points.add(p);
+                //points = GeoService.points;
                 adapter.notifyDataSetChanged();
-
-            }
-
-        }
-
 
     }
 
