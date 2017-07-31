@@ -17,19 +17,57 @@
             android:id="@+id/tvTrailDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/trailDesc" />
-
-        <TextView
-            android:id="@+id/tvTrailPoints"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/cast_expanded_controller_ad_label_background_color"
-            android:text="@string/trailPoints" />
+            android:text="@string/trailDesc"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/horario_inicio" />
+
+            <TextView
+                android:id="@+id/tvhorarioinicio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/textViewRaio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="@string/btn_encerrar_trilha"
+                android:onClick="finishTrail"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/lbLatitude"
@@ -72,12 +110,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="" />
+
+
+
+
         </LinearLayout>
 
         <ListView
             android:id="@+id/view_list_points"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 

@@ -3,10 +3,12 @@ package br.com.ufrpe.isantos.trilhainterpretativa;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -27,6 +29,7 @@ import java.util.Date;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Image;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Point;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
+import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailConstants;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailFileUtils;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser;
 
@@ -36,8 +39,8 @@ import static br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser.st
 public class UpdateActivity extends AppCompatActivity {
     ProgressDialog mProgressDialog;
     TextView tvLastUpdate;
-    EditText etBaseConsole;
     EditText urlUpdate;
+    EditText etRaio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +50,18 @@ public class UpdateActivity extends AppCompatActivity {
         mProgressDialog.setMessage(getString(R.string.statusProgress));
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setCancelable(true);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCanceledOnTouchOutside(false);
         tvLastUpdate = (TextView) findViewById(R.id.lastUpdate);
-        etBaseConsole = (EditText) findViewById(R.id.etBaseConsole);
+        etRaio = (EditText) findViewById(R.id.editRaio);
+
+
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String raio = settings.getString(getString(R.string.raio), TrailConstants.SCALA+"");
+        Toast.makeText(getApplicationContext(),  raio, Toast.LENGTH_LONG).show();
+        etRaio.setText(raio);
+
         urlUpdate = (EditText) findViewById(R.id.urlupdate);
         urlUpdate.setText(getString(R.string.service_url));
         Context context = getApplicationContext();
@@ -220,22 +232,25 @@ public class UpdateActivity extends AppCompatActivity {
     }
     public void showBase(View v) {
 
+        Intent intent = new Intent(getApplicationContext(), BaseViwerActivity.class);
+        startActivity(intent);
 
 
-        try {
-
-           String result =  TrailFileUtils.getFileContent(getString(R.string.db_file),getApplicationContext());
-            etBaseConsole.setText(result);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            etBaseConsole.setText(e.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-            etBaseConsole.setText(e.toString());
-        }
 
 
     }
+    public void editRaio(View v) {
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(getString(R.string.raio), etRaio.getText()+"");
+        editor.commit();
+
+
+        Toast.makeText(getApplicationContext(), getString(R.string.raio)+etRaio.getText() , Toast.LENGTH_LONG).show();
+
+    }
+
 
 
 

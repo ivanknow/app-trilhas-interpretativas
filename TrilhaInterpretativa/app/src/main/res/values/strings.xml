@@ -3,7 +3,7 @@
     <string name="longitude">longitude</string>
     <string name="latitude">latitude</string>
 
-    <string name="service_url">http://trilha.ivanknow.com.br/api/public/trailmock</string>
+    <string name="service_url">http://trilha.ivanknow.com.br/jbf.json</string>
     <string name="service_url_base">http://trilha.ivanknow.com.br/</string>
     <string name="db_file">db2.json</string>
     <string name="btnSettings">Configurações</string>
@@ -17,12 +17,16 @@
     <string name="updateSuccess">Atualizado</string>
     <string name="lastUpdate">Última Atualização:</string>
     <string name="lastUpdateKey">lastUpdateKey</string>
+    <string name="horaInicio">horaInicio</string>
     <string name="trailDesc">Seja bem vindo a trilha dois irmãos! essa trilha tem muitos km e possui desafios naturais</string>
     <string name="trailPoints">0 pontos registrados</string>
-    <string name="lblatitude">Latitude:</string>
-    <string name="lbLongitude">Longitude:</string>
+    <string name="lblatitude">La:</string>
+    <string name="lbLongitude">Lon:</string>
     <string name="lbAcc">Aceleração</string>
-    <string name="lbAtt">Altitude:</string>
+    <string name="lbAtt">Alt:</string>
     <string name="btShowPoint">Visualizar</string>
     <string name="btnOpenMap">Abrir no Mapa</string>
+    <string name="horario_inicio">Início</string>
+    <string name="btn_encerrar_trilha">Encerrar Trilha</string>
+    <string name="raio">raio3</string>
 </resources>

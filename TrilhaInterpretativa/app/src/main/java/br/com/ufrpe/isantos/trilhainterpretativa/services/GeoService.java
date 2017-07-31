@@ -6,10 +6,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -47,8 +49,10 @@ import br.com.ufrpe.isantos.trilhainterpretativa.TrailMediator;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Local;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Point;
 import br.com.ufrpe.isantos.trilhainterpretativa.entity.Trail;
+import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailConstants;
 import br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailJSONParser;
 
+import static br.com.ufrpe.isantos.trilhainterpretativa.R.string.raio;
 import static br.com.ufrpe.isantos.trilhainterpretativa.utils.TrailConstants.SCALA;
 
 /**
@@ -66,8 +70,10 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
     private long interval = 5000;
     private String LOG_TAG = "service geo";
     private Trail trail;
-    private ArrayList<Point> points;
+    public static ArrayList<Point> points;
     private boolean currentlyProcessingLocation = false;
+    private double scala;
+
 
 
     public GeoService() {
@@ -102,6 +108,10 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
 
             points = (ArrayList) trail.getPoints();
 
+
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+            String raioString = settings.getString(getString(raio), TrailConstants.SCALA+"");
+            scala = Double.parseDouble( raioString);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -194,6 +204,11 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
     }
 
     @Override
+    public boolean stopService(Intent name) {
+        return super.stopService(name);
+    }
+
+    @Override
     public void onLocationChanged(Location location) {
         Log.i(LOG_TAG, "CHANGED");
 
@@ -205,15 +220,25 @@ public class GeoService extends IntentService implements  GoogleApiClient.Connec
 
 
             if (points.contains(point)) {
-
                 points.remove(points.indexOf(point));
+                point.setCheckpoint(new Date());
+                points.add(0,point);
+
+
+                //points.get(points.indexOf(point)).setCheckpoint(new Date());
+              //
                 v.vibrate(3000);
                int mNotificationId = 1001;
+                Location targetLocation = new Location("");//provider name is unnecessary
+                targetLocation.setLatitude(point.getLocal().getLatitude());//your coords of course
+                targetLocation.setLongitude(point.getLocal().getLongitude());
+
+
                 NotificationCompat.Builder mBuilder =
                          new NotificationCompat.Builder(this)
                                         .setSmallIcon(R.mipmap.ic_launcher)
                                         .setContentTitle("Ponto detectado")
-                                        .setContentText(point.getTitle());
+                                        .setContentText(point.getTitle()+" à "+Math.ceil(location.distanceTo(targetLocation))+"m");
 
                 Intent resultIntent = new Intent(this, MapActivity.class);
 
