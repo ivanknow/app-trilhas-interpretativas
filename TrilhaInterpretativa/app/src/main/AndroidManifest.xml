@@ -44,10 +44,6 @@
         <service
             android:name=".services.GeoService"
             android:exported="false" />
-        <service
-            android:name=".services.MyLocationService"
-            android:enabled="true"
-            android:exported="true"></service>
     </application>
 
 </manifest>
